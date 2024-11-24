@@ -2,8 +2,9 @@ plugins {
     id "org.jetbrains.kotlin.jvm" version "1.9.0" apply false
     id "org.jetbrains.kotlin.plugin.serialization" version "1.9.0" apply false
 }
+
 allprojects {
-    group = "com.github.lrmn7.mewwme-lavasrc"
+    group = "com.github.mewwme.mewwme-lavasrc"
 
     repositories {
         mavenLocal()
@@ -29,7 +30,6 @@ def getGitVersion() {
         return [versionStr.toString().trim(), false]
     }
 
-
     versionStr = new ByteArrayOutputStream()
     exec {
         standardOutput versionStr
@@ -47,11 +47,15 @@ subprojects {
     apply plugin: "java"
     apply plugin: "maven-publish"
 
+    // Mendapatkan versi dari Git
     def (versionStr, isSnapshot) = getGitVersion()
     version versionStr
     println "Version: " + versionStr
 
     compileJava.options.encoding = "UTF-8"
+
+    // Menggunakan properti 'version' yang diteruskan ke Gradle
+    version = project.hasProperty('version') ? project.version : versionStr
 
     publishing {
         repositories {
@@ -68,7 +72,6 @@ subprojects {
                         username = findProperty("MAVEN_USERNAME")
                         password = findProperty("MAVEN_PASSWORD")
                     }
-
                 }
             }
             if (isLavalinkMavenDefined && name == "plugin") {
