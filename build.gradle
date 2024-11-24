@@ -47,20 +47,15 @@ subprojects {
     apply plugin: "java"
     apply plugin: "maven-publish"
 
-    // Mendapatkan versi dari Git
-    def (versionStr, isSnapshot) = getGitVersion()
+    // Ambil versi dari environment variable, jika tersedia
+    def versionStr = System.getenv('VERSION') ?: getGitVersion()[0]  // Jika VERSION ada, pakai itu, kalau tidak, ambil versi Git
+    def isSnapshot = versionStr.contains("SNAPSHOT")  // Tentukan apakah ini snapshot atau release
 
-    // Menggunakan versi dari Git untuk penamaan file JAR
+    // Set version sesuai dengan hasil cek versi
     version versionStr
     println "Version: " + versionStr
 
-    // Set base name of the artifact to include the version
-    archivesBaseName = "mewwme-lavasrc" // Nama dasar artefak
-
     compileJava.options.encoding = "UTF-8"
-
-    // Menggunakan properti 'version' yang diteruskan ke Gradle
-    version = project.hasProperty('version') ? project.version : versionStr
 
     publishing {
         repositories {
@@ -77,6 +72,7 @@ subprojects {
                         username = findProperty("MAVEN_USERNAME")
                         password = findProperty("MAVEN_PASSWORD")
                     }
+
                 }
             }
             if (isLavalinkMavenDefined && name == "plugin") {
