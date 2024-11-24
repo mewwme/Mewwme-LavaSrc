@@ -1,0 +1,49 @@
+name: Build and Publish for JitPack
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: zulu
+          java-version: 17
+          cache: gradle
+
+      - name: Build with Gradle
+        run: ./gradlew clean build --no-daemon
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: Build Artifacts
+          path: '**/build/libs/*.jar'
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Download Build Artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: Build Artifacts
+
+      - name: Attach Artifacts to Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: '**/*.jar'
+          token: ${{ secrets.GITHUB_TOKEN }}
