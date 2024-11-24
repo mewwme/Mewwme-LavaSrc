@@ -23,6 +23,11 @@ jobs:
       - name: Grant execute permissions to Gradlew
         run: chmod +x gradlew
 
+      - name: Add JitPack Token to gradle.properties
+        run: |
+          mkdir -p ~/.gradle
+          echo "authToken=${{ secrets.JITPACK_TOKEN }}" > ~/.gradle/gradle.properties
+
       - name: Set version based on GitHub Run Number
         run: echo "VERSION=v1.0.${{ github.run_number }}" >> $GITHUB_ENV
 
