@@ -15,8 +15,8 @@ allprojects {
         maven {
             url "https://jitpack.io"
             credentials {
-                username = "masteng" // JitPack username tetap "jp"
-                password = "masteng7" // Gunakan token Anda
+                username = "mewwme" // JitPack username tetap "jp"
+                password = "jp_dp46c3e8eb5fulo6msv36p2jht" // Gunakan token Anda
             }
         }
         jcenter() // Ini sudah deprecated, sebaiknya dihapus
