@@ -21,6 +21,9 @@ jobs:
           java-version: 17
           cache: gradle
 
+      - name: Grant execute permissions to Gradlew
+        run: chmod +x gradlew
+
       - name: Build with Gradle
         run: ./gradlew clean build --no-daemon
 
