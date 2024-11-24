@@ -12,14 +12,15 @@ allprojects {
         maven { url "https://maven.topi.wtf/snapshots" }
         maven { url "https://maven.arbjerg.dev/releases" }
         maven { url "https://maven.arbjerg.dev/snapshots" }
-    maven {
-        url "https://jitpack.io"
-        credentials {
-            username = findProperty("mewwme") ?: ""
-            password = findProperty("jp_m70e559vsok91j7loa0n8fe5fs") ?: "jp_m70e559vsok91j7loa0n8fe5fs"
+        maven {
+            url "https://jitpack.io"
+            credentials {
+                username = "jp" // JitPack username tetap "jp"
+                password = findProperty("jp_m70e559vsok91j7loa0n8fe5fs") ?: "jp_m70e559vsok91j7loa0n8fe5fs" // Gunakan token Anda
+            }
         }
+        jcenter() // Ini sudah deprecated, sebaiknya dihapus
     }
-    jcenter()
 }
 
 def getGitVersion() {
