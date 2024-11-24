@@ -49,8 +49,13 @@ subprojects {
 
     // Mendapatkan versi dari Git
     def (versionStr, isSnapshot) = getGitVersion()
+
+    // Menggunakan versi dari Git untuk penamaan file JAR
     version versionStr
     println "Version: " + versionStr
+
+    // Set base name of the artifact to include the version
+    archivesBaseName = "mewwme-lavasrc" // Nama dasar artefak
 
     compileJava.options.encoding = "UTF-8"
 
