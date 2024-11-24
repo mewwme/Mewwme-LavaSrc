@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - main
-  pull_request:
   release:
     types: [published]
 
@@ -57,6 +56,6 @@ jobs:
         with:
           artifacts: '**/*.jar'
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag_name: v1.0.${{ github.run_number }}
-          release_name: "Release v1.0.${{ github.run_number }}"
-          body: "Automatic release by GitHub Actions"
+          tag: v1.0.${{ github.run_number }}
+          body: Automatic release by GitHub Actions
+          replacesArtifacts: true
